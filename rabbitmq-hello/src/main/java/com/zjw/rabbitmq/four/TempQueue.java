@@ -4,7 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.zjw.rabbitmq.utils.RabbitMqUtils;
 
 /**
- * 创建临时队列
+ * 创建临时队列，临时队列在程序停止时自动删除
  * @author 朱俊伟
  * @date 2022/08/21 21:20
  */

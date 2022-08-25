@@ -60,6 +60,7 @@ class ConsumerThread extends Thread{
     public void run() {
         try {
             Channel channel = RabbitMqUtils.getChannel();
+            //声明交换机
             channel.exchangeDeclare(exchange, exchangeType);
             //生成一个临时队列 临时队列在消费者断开连接的时候删除
             String queue = channel.queueDeclare().getQueue();
