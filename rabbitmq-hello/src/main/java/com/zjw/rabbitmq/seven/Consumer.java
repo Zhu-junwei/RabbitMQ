@@ -1,4 +1,4 @@
-package com.zjw.rabbitmq.five;
+package com.zjw.rabbitmq.seven;
 
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.CancelCallback;
@@ -8,6 +8,7 @@ import com.zjw.rabbitmq.utils.ExchangeUtils;
 import com.zjw.rabbitmq.utils.RabbitMqUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * 创建两个消费者
@@ -16,10 +17,18 @@ import java.nio.charset.StandardCharsets;
  */
 public class Consumer {
     public static void main(String[] args) throws Exception {
-        ConsumerThread consumerA = new ConsumerThread("ConsumerA", ExchangeUtils.LOGS, BuiltinExchangeType.FANOUT, "");
-        ConsumerThread consumerB = new ConsumerThread("ConsumerB", ExchangeUtils.LOGS, BuiltinExchangeType.FANOUT, "");
+        /* routingKey匹配规则
+         *  *(星号)可以代替一个单词
+         *  #(井号)可以替代零个或多个单词
+         * 当一个队列中routingKey是#，那个这个队列将接收所有数据，有点像fanout
+         * 当队列routingKey中没有#和*出现，那么该队列绑定类型就是direct
+         */
+        ConsumerThread consumerA = new ConsumerThread("ConsumerA", ExchangeUtils.TOPIC_LOGS, BuiltinExchangeType.TOPIC, new String[]{"*.orange.*"});
+        ConsumerThread consumerB = new ConsumerThread("ConsumerB", ExchangeUtils.TOPIC_LOGS, BuiltinExchangeType.TOPIC, new String[]{"*.*.rabbit", "lazy.#"});
+        ConsumerThread consumerC = new ConsumerThread("ConsumerC", ExchangeUtils.TOPIC_LOGS, BuiltinExchangeType.TOPIC, new String[]{"#"});
         consumerA.start();
         consumerB.start();
+        consumerC.start();
     }
 }
 
@@ -46,30 +55,31 @@ class ConsumerThread extends Thread{
     /**
      * routingKey
      */
-    private final String routingKey;
+    private final String[] routingKeys;
 
 
-    public ConsumerThread(String consumerName, String exchange, BuiltinExchangeType exchangeType, String routingKey){
+    public ConsumerThread(String consumerName, String exchange, BuiltinExchangeType exchangeType, String[] routingKeys){
         this.consumerName = consumerName;
         this.exchange = exchange;
         this.exchangeType = exchangeType;
-        this.routingKey = routingKey;
+        this.routingKeys = routingKeys;
     }
 
     @Override
     public void run() {
         try {
             Channel channel = RabbitMqUtils.getChannel("消费者");
-            //声明交换机
             channel.exchangeDeclare(exchange, exchangeType);
             //生成一个临时队列 临时队列在消费者断开连接的时候删除
             String queue = channel.queueDeclare().getQueue();
             //把该队列绑定我们的exchange 其中routingKey 也为字符串
-            channel.queueBind(queue, exchange, routingKey);
+            for (String routingKey : routingKeys) {
+                channel.queueBind(queue, exchange, routingKey);
+            }
 
             DeliverCallback deliverCallback = (consumerTag, message) -> {
                 String msg = new String(message.getBody(), StandardCharsets.UTF_8);
-                System.out.println(consumerName + "接收消息：" + msg);
+                System.out.println(consumerName + Arrays.toString(routingKeys) + "接收消息：" + msg);
             };
 
             CancelCallback cancelCallback = (consumerTag) -> System.out.println("消费消息被中断");

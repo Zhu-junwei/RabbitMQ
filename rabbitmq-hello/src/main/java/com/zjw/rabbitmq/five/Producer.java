@@ -9,13 +9,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
- * exchange发布订阅模式fanout
+ * exchange发布订阅模式fanout (将接收到的所有消息广播到它知道的所有队列中。)
  * @author 朱俊伟
  * @date 2022/03/20 20:53
  */
 public class Producer {
     public static void main(String[] args) throws Exception {
-        Channel channel = RabbitMqUtils.getChannel();
+        Channel channel = RabbitMqUtils.getChannel("生产者");
         /*声明交换机
          *  交换机类型：
          *      direct:直接(路由类型)
