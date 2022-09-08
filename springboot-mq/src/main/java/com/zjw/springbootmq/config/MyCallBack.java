@@ -1,6 +1,7 @@
 package com.zjw.springbootmq.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.ReturnedMessage;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class MyCallBack implements RabbitTemplate.ConfirmCallback {
+public class MyCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
 
     /**
      * 交换机不管是否收到消息的一个回调方法
@@ -27,5 +28,18 @@ public class MyCallBack implements RabbitTemplate.ConfirmCallback {
         } else {
             log.info("交换机还未收到id为{}的消息，由于原因{}", id, cause);
         }
+    }
+
+    /**
+     * Returned message callback.
+     * @param returned the returned message and metadata.
+     */
+    @Override
+    public void returnedMessage(ReturnedMessage returned) {
+        log.error("消息{},被交换机{}退回,退回原因:{},路由Key:{}",
+                new String(returned.getMessage().getBody()),
+                returned.getExchange(),
+                returned.getReplyText(),
+                returned.getRoutingKey());
     }
 }
