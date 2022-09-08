@@ -25,14 +25,14 @@ public class SendMsgController {
 
     @GetMapping("/sendMsg/{message}")
     public void sendMsg(@PathVariable String message){
-        log.info("当前时间:{},发送一条信息给两个TTL队列:{}",new Date().toString(), message);
+        log.info("当前时间:{},发送一条信息给两个TTL队列:{}", new Date(), message);
         rabbitTemplate.convertAndSend("X", "XA", "消息来自ttl为10S的队列" + message);
         rabbitTemplate.convertAndSend("X", "XB", "消息来自ttl为40S的队列" + message);
     }
 
     @GetMapping("/sendExpirationMsg/{message}/{ttlTime}")
     public void sendMsg(@PathVariable String message, @PathVariable String ttlTime){
-        log.info("当前时间:{},发送一条时长{}毫秒信息给队列C:{}",new Date().toString(),ttlTime, message);
+        log.info("当前时间:{},发送一条时长{}毫秒信息给队列C:{}", new Date(),ttlTime, message);
         rabbitTemplate.convertAndSend("X", "XC", message, correlationData ->{
             correlationData.getMessageProperties().setExpiration(ttlTime);
             return correlationData;
@@ -41,7 +41,7 @@ public class SendMsgController {
 
     @GetMapping("/sendDelayMsg/{message}/{delayTime}")
     public void sendMsg(@PathVariable String message, @PathVariable Integer delayTime){
-        log.info("当前时间:{},发送一条时长{}毫秒信息给队列C:{}",new Date().toString(),delayTime, message);
+        log.info("当前时间:{},发送一条时长{}毫秒信息给队列C:{}", new Date(),delayTime, message);
         rabbitTemplate.convertAndSend(DelayedQueueConfig.DELAYED_EXCHANGE_NAME, DelayedQueueConfig.DELAYED_ROUTING_KEY, message, correlationData ->{
             //delayTime 单位：ms
             correlationData.getMessageProperties().setDelay(delayTime);
