@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * 告警消费者，消费告警队列消息
  * @author 朱俊伟
- * @date 2022/09/08 23:19
+ * @since 2022/09/08 23:19
  */
 @Component
 @Slf4j

@@ -13,7 +13,7 @@ import java.util.Arrays;
 /**
  * 创建两个消费者
  * @author 朱俊伟
- * @date 2022/03/20 21:10
+ * @since 2022/03/20 21:10
  */
 public class Consumer {
     public static void main(String[] args) throws Exception {

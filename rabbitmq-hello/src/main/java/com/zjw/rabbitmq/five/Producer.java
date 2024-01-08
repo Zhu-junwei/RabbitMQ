@@ -10,8 +10,10 @@ import java.util.Scanner;
 
 /**
  * exchange发布订阅模式fanout (将接收到的所有消息广播到它知道的所有队列中。)
+ * <p>
+ * 即使指定了routingKey,都会将消息广播到与之绑定的所有队列
  * @author 朱俊伟
- * @date 2022/03/20 20:53
+ * @since 2022/03/20 20:53
  */
 public class Producer {
     public static void main(String[] args) throws Exception {

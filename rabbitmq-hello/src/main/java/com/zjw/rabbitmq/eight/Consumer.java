@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * 创建一个消费者，里面包含一个正常队列，一个死信队列
  * @author 朱俊伟
- * @date 2022/03/20 21:10
+ * @since 2022/03/20 21:10
  */
 public class Consumer {
     public static void main(String[] args) throws Exception {
@@ -32,9 +32,10 @@ public class Consumer {
         consumerA.setRoutingKeys(new String[]{"log"});
 
         //正常队列绑定死信队列信息
-        Map<String,Object> arguments = new HashMap<>(2);
+        Map<String,Object> arguments = new HashMap<>();
         arguments.put("x-dead-letter-exchange",ExchangeUtils.DIRECT_DEAD_LOGS);
         arguments.put("x-dead-letter-routing-key", "log_dead");
+        //设置队列最大的消息
 //        arguments.put("x-max-length",6);
         consumerA.setQueueArguments(arguments);
 
@@ -128,10 +129,10 @@ class ConsumerThread extends Thread{
 
             DeliverCallback deliverCallback = (consumerTag, message) -> {
                 String msg = new String(message.getBody(), StandardCharsets.UTF_8);
-                System.out.println(consumerName + Arrays.toString(routingKeys) + "接收消息：" + msg);
                 if (msg.contains("5")){
                     channel.basicReject(message.getEnvelope().getDeliveryTag(),false);
                 } else {
+                    System.out.println(consumerName + Arrays.toString(routingKeys) + "接收消息：" + msg);
                     channel.basicAck(message.getEnvelope().getDeliveryTag(),false);
                 }
             };

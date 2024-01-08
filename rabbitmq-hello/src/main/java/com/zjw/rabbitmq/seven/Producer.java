@@ -12,7 +12,7 @@ import java.util.Scanner;
  * exchange主题模式topic
  *  通过routingKey的匹配规则（*、#），将消息存入不同的队列
  * @author 朱俊伟
- * @date 2022/08/21 22:39
+ * @since 2022/08/21 22:39
  */
 public class Producer {
 

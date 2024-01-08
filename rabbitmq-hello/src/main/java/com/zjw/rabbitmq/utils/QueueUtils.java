@@ -2,7 +2,7 @@ package com.zjw.rabbitmq.utils;
 
 /**
  * @author 朱俊伟
- * @date 2022/03/20 13:24
+ * @since 2022/03/20 13:24
  */
 public class QueueUtils {
 

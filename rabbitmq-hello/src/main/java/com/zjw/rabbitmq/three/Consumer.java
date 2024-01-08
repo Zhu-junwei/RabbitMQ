@@ -9,7 +9,7 @@ import com.zjw.rabbitmq.utils.SleepUtils;
 
 /**
  * @author 朱俊伟
- * @date 2022/08/20 18:02
+ * @since 2022/08/20 18:02
  */
 public class Consumer {
     public static void main(String[] args) {

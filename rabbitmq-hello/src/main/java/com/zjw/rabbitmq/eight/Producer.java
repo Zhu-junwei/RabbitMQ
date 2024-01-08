@@ -1,11 +1,13 @@
 package com.zjw.rabbitmq.eight;
 
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.zjw.rabbitmq.utils.ExchangeUtils;
 import com.zjw.rabbitmq.utils.RabbitMqUtils;
 import com.zjw.rabbitmq.utils.SleepUtils;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -32,13 +34,27 @@ public class Producer {
          */
         channel.exchangeDeclare(exchange, BuiltinExchangeType.DIRECT);
         //1.进入死信队列 设置为1s过期，为了进入死信队列
-//        AMQP.BasicProperties properties = new AMQP.BasicProperties().builder().expiration("10000").build();
-        for (int i = 0; i < 10; i++) {
+        timeout(exchange,channel);
+
+//        for (int i = 0; i < 10; i++) {
+//            SleepUtils.sleep(1);
+//            String message = "message " + i;
+//            System.out.println("发送:" + message);
+////            channel.basicPublish(exchange, "log", properties, message.getBytes(StandardCharsets.UTF_8));
+//            channel.basicPublish(exchange, "log", null, message.getBytes(StandardCharsets.UTF_8));
+//        }
+
+    }
+
+
+    public static void timeout(String exchange,Channel channel) throws IOException {
+        //1.进入死信队列 设置为1s过期，为了进入死信队列
+        AMQP.BasicProperties properties = new AMQP.BasicProperties().builder().expiration("10000").build();
+        for (int i = 0; i < 20; i++) {
             SleepUtils.sleep(1);
             String message = "message " + i;
             System.out.println("发送:" + message);
-//            channel.basicPublish(exchange, "log", properties, message.getBytes(StandardCharsets.UTF_8));
-            channel.basicPublish(exchange, "log", null, message.getBytes(StandardCharsets.UTF_8));
+            channel.basicPublish(exchange, "log", properties, message.getBytes(StandardCharsets.UTF_8));
         }
     }
 

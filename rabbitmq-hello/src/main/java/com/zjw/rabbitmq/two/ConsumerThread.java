@@ -8,7 +8,7 @@ import com.zjw.rabbitmq.utils.RabbitMqUtils;
 
 /**
  * @author 朱俊伟
- * @date 2022/08/13 10:50
+ * @since 2022/08/13 10:50
  */
 public class ConsumerThread extends Thread{
 

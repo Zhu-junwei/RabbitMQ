@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 连接工厂，创建信道的工具类
  * @author 朱俊伟
- * @date 2022/03/20 11:54
+ * @since 2022/03/20 11:54
  */
 public class RabbitMqUtils {
 
@@ -18,11 +18,18 @@ public class RabbitMqUtils {
     public static final String DEFAULT_CONNECTION_NAME = "default";
     public static Map<String,Connection> connectionMap = new HashMap<>();
 
-    static {
-        factory = new ConnectionFactory();
-        factory.setHost("192.168.234.128");
-        factory.setUsername("admin");
-        factory.setPassword("admin");
+    private RabbitMqUtils() {
+        // 防止实例化的私有构造方法
+    }
+
+    public static synchronized ConnectionFactory getFactory() {
+        if (factory == null) {
+            factory = new ConnectionFactory();
+            factory.setHost("rabbitmq");
+            factory.setUsername("admin");
+            factory.setPassword("admin");
+        }
+        return factory;
     }
 
     /**
@@ -40,8 +47,9 @@ public class RabbitMqUtils {
     public static synchronized Channel getChannel(String connectionName) throws Exception{
         Connection connection = connectionMap.get(connectionName);
         if (connection == null){
-            connection = factory.newConnection(connectionName);
+            connection = getFactory().newConnection(connectionName);
             connectionMap.put(connectionName,connection);
+
             System.out.println("ChannelMax:" + connection.getChannelMax());
         }
         return connection.createChannel();

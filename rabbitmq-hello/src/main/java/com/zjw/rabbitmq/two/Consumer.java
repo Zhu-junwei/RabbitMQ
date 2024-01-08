@@ -2,7 +2,7 @@ package com.zjw.rabbitmq.two;
 
 /**
  * @author 朱俊伟
- * @date 2022/08/13 10:56
+ * @since 2022/08/13 10:56
  * 模拟多个消费者
  */
 public class Consumer {

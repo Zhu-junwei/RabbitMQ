@@ -3,7 +3,7 @@ package com.zjw.rabbitmq.utils;
 /**
  * 交换机工具类
  * @author 朱俊伟
- * @date 2022/03/20 20:59
+ * @since 2022/03/20 20:59
  */
 public class ExchangeUtils {
 

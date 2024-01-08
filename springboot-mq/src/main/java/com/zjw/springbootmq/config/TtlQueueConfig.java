@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * TTL队列 配置文件类代码
  * @author 朱俊伟
- * @date 2022/09/06 22:01
+ * @since 2022/09/06 22:01
  */
 @Configuration
 public class TtlQueueConfig {

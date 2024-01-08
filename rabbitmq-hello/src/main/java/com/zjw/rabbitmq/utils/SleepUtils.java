@@ -2,7 +2,7 @@ package com.zjw.rabbitmq.utils;
 
 /**
  * @author 朱俊伟
- * @date 2022/03/20 14:00
+ * @since 2022/03/20 14:00
  */
 public class SleepUtils {
 

@@ -11,8 +11,10 @@ import java.util.*;
 /**
  * exchange直接模式direct
  *  与发布订阅的区别是指定了routingKey,也就是指定消息了发送到哪些队列中
+ * <p>
+ *  如果不指定routingKey,它和fanout发布订阅一样
  * @author 朱俊伟
- * @date 2022/08/21 22:39
+ * @since 2022/08/21 22:39
  */
 public class Producer {
 

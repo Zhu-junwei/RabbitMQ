@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * 使用控制台发送消息
  * @author 朱俊伟
- * @date 2022/03/20 12:20
+ * @since 2022/03/20 12:20
  */
 public class Producer2 {
 

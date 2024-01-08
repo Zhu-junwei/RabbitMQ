@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Rabbitmq插件实现延迟队列
  * @author 朱俊伟
- * @date 2022/09/07 22:49
+ * @since 2022/09/07 22:49
  */
 @Configuration
 public class DelayedQueueConfig {

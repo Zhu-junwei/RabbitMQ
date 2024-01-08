@@ -5,13 +5,11 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
 
-import java.io.IOException;
 import java.time.LocalTime;
-import java.util.concurrent.TimeoutException;
 
 /**
  * @author 朱俊伟
- * @date 2022/03/15 8:10
+ * @since 2022/03/15 8:10
  *  生产者：发消息
  */
 public class Producer {
@@ -21,12 +19,12 @@ public class Producer {
      */
     public static final String QUEUE_NAME = "hello" ;
 
-    public static void main(String[] args) throws IOException, TimeoutException {
+    public static void main(String[] args) throws Throwable {
 
         //创建一个连接工厂
         ConnectionFactory factory = new ConnectionFactory();
         //工厂IP 连接RabbitMQ的队列
-        factory.setHost("192.168.234.128");
+        factory.setHost("rabbitmq");
         //用户名
         factory.setUsername("admin");
         //密码
