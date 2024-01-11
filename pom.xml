@@ -11,6 +11,5 @@
   
     <modules>
         <module>rabbitmq-hello</module>
-        <module>springboot-mq</module>
     </modules>
 </project>
